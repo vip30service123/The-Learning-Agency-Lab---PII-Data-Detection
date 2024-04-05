@@ -3,7 +3,10 @@ dataset:
   processed_train_path: ./data/processed_train.csv
   processed_test_path: ./data/processed_test.csv
   train_percentage: 0.8
+  max_length: 1024
   random_seed: 1234
 model:
   base_model_name_or_path: "microsoft/deberta-v3-base"
-
+train:
+  bsz: 8
+  is_shuffle: True

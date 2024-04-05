@@ -27,7 +27,7 @@ def process(config):
                                               {'tokens': x['tokens'], 
                                                'trailing_whitespace': x['trailing_whitespace'], 
                                                'labels': x['labels']}, 
-                                              50, 
+                                              config.dataset.max_length, 
                                               label2id).values()), axis=1))
 
     train_df, test_df = train_test_split(df, train_size=config.dataset.train_percentage, random_state=config.dataset.random_seed)

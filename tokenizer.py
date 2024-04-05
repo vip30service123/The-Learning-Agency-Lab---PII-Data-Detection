@@ -25,11 +25,11 @@ def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int, label2id
 			text.append(' ')
 			token_maps.append(-1)
 	
-	tokenized_text = tokenizer("".join(text), return_offsets_mapping=True, max_length=max_length, truncation=True)
+	tokenized_text = tokenizer("".join(text), return_offsets_mapping=True, max_length=max_length, truncation=True, padding="max_length")
 
 	for start, end in tokenized_text['offset_mapping']:
 		if start == 0 and end == 0:
-			token_labels.append('O')
+			token_labels.append(0)
 			continue
 			
 		if token_maps[start] == -1:
