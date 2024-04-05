@@ -1,4 +1,8 @@
 dvc
 dvc_gdrive
+omegaconf
 pandas
-
+python-dotenv
+torch 
+torchvision 
+torchaudio
