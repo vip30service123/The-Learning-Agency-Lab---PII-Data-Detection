@@ -19,7 +19,7 @@ def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int) -> Dict:
 	
 	for i, tw in enumerate(instance["trailing_whitespace"]):
 		text.append(instance["tokens"][i])
-		token_maps.append([i] * len(instance["tokens"][i]))			
+		token_maps += [i] * len(instance["tokens"][i])
 
 		if tw:
 			text.append(' ')
@@ -29,16 +29,18 @@ def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int) -> Dict:
 
 	for start, end in tokenized_text['offset_mapping']:
 		if start == 0 and end == 0:
-			token_labels.append(['O'])
+			token_labels.append('O')
 			continue
 			
 		if token_maps[start] == -1:
 			start += 1
 
+		# print(start)
+		# print(token_maps)
 		token_labels.append(instance['labels'][token_maps[start]])
 
 	return {
 		**tokenized_text,
 		'token_labels': token_labels,
-		'token_labels': token_maps
+		'token_maps': token_maps
 	}

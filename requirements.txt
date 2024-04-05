@@ -3,6 +3,8 @@ dvc_gdrive
 omegaconf
 pandas
 python-dotenv
+sentencepiece
 torch 
 torchvision 
 torchaudio
+transformers 
