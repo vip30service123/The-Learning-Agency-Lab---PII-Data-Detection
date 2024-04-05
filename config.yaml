@@ -1,8 +1,9 @@
-
-
-
-
-
+dataset:
+  data_path: ./data/train.json
+  processed_train_path: ./data/processed_train.csv
+  processed_test_path: ./data/processed_test.csv
+  train_percentage: 0.8
+  random_seed: 1234
 model:
-	base_model_name_or_path: "microsoft/deberta-v3-base"
+  base_model_name_or_path: "microsoft/deberta-v3-base"
 

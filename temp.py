@@ -29,60 +29,60 @@ for instance in data:
 print(all_labels)
 
 
-print("######## Phone number")
-for instance in data:
-	flag = False
-	for label, token in zip(instance['labels'], instance['tokens']):
-		if label == "B-PHONE_NUM" or label == "I-PHONE_NUM":
-			print(label, token)
-			flag = True
-	if flag:
-		print()
+# print("######## Phone number")
+# for instance in data:
+# 	flag = False
+# 	for label, token in zip(instance['labels'], instance['tokens']):
+# 		if label == "B-PHONE_NUM" or label == "I-PHONE_NUM":
+# 			print(label, token)
+# 			flag = True
+# 	if flag:
+# 		print()
 
 
-print("######## Personal URL")
-for instance in data:
-	flag = False
-	for label, token in zip(instance['labels'], instance['tokens']):
-		if label == "B-URL_PERSONAL" or label == "I-URL_PERSONAL":
-			print(label, token)
-			flag = True
-	if flag:
-		print()
+# print("######## Personal URL")
+# for instance in data:
+# 	flag = False
+# 	for label, token in zip(instance['labels'], instance['tokens']):
+# 		if label == "B-URL_PERSONAL" or label == "I-URL_PERSONAL":
+# 			print(label, token)
+# 			flag = True
+# 	if flag:
+# 		print()
 
 
-print("######### Street address")
-for instance in data:
-	flag = False
-	for label, token in zip(instance['labels'], instance['tokens']):
-		if label == "B-STREET_ADDRESS" or label == "I-STREET_ADDRESS":
-			print(label, token)
-			flag = True
-	if flag:
-		print()
+# print("######### Street address")
+# for instance in data:
+# 	flag = False
+# 	for label, token in zip(instance['labels'], instance['tokens']):
+# 		if label == "B-STREET_ADDRESS" or label == "I-STREET_ADDRESS":
+# 			print(label, token)
+# 			flag = True
+# 	if flag:
+# 		print()
 
 
 
-print("######### Id num")
-for instance in data:
-	flag = False
-	for label, token in zip(instance['labels'], instance['tokens']):
-		if label == "B-ID_NUM" or label == "I-ID_NUM":
-			print(label, token)
-			flag = True
-	if flag:
-		print()
+# print("######### Id num")
+# for instance in data:
+# 	flag = False
+# 	for label, token in zip(instance['labels'], instance['tokens']):
+# 		if label == "B-ID_NUM" or label == "I-ID_NUM":
+# 			print(label, token)
+# 			flag = True
+# 	if flag:
+# 		print()
 
 
-print("######### Email")
-for instance in data:
-	flag = False
-	for label, token in zip(instance['labels'], instance['tokens']):
-		if label == "B-EMAIL":
-			print(label, token)
-			flag = True
-	if flag:
-		print()
+# print("######### Email")
+# for instance in data:
+# 	flag = False
+# 	for label, token in zip(instance['labels'], instance['tokens']):
+# 		if label == "B-EMAIL":
+# 			print(label, token)
+# 			flag = True
+# 	if flag:
+# 		print()
 
 
 

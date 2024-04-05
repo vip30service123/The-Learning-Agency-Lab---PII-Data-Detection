@@ -3,7 +3,7 @@ from typing import Dict, Self
 from transformers import AutoTokenizer
 
 
-def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int) -> Dict: 
+def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int, label2id: Dict) -> Dict: 
 	if "trailing_whitespace" not in instance:
 		raise Exception("trainling_whitespace is missing.")
 
@@ -35,9 +35,7 @@ def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int) -> Dict:
 		if token_maps[start] == -1:
 			start += 1
 
-		# print(start)
-		# print(token_maps)
-		token_labels.append(instance['labels'][token_maps[start]])
+		token_labels.append(label2id[instance['labels'][token_maps[start]]])
 
 	return {
 		**tokenized_text,

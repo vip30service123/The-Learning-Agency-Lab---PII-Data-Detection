@@ -3,6 +3,7 @@ dvc_gdrive
 omegaconf
 pandas
 python-dotenv
+scikit-learn
 sentencepiece
 torch 
 torchvision 
