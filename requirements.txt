@@ -1,3 +1,4 @@
+accelerate
 dvc
 dvc_gdrive
 omegaconf
