@@ -22,25 +22,25 @@ def train(config):
 	
 	print("#### Prepare config.")
 	training_args = TrainingArguments(
-		output_dir='./results',          # output directory
-		num_train_epochs=10,              # total number of training epochs
-		per_device_train_batch_size=8,  # batch size per device during training
-		per_device_eval_batch_size=8,   # batch size for evaluation
+		output_dir=config.trainer.output_dir,          # output directory
+		num_train_epochs=config.trainer.num_train_epochs,              # total number of training epochs
+		per_device_train_batch_size=config.trainer.per_device_train_batch_size,  # batch size per device during training
+		per_device_eval_batch_size=config.trainer.per_device_eval_batch_size,   # batch size for evaluation
 		# warmup_steps=500,                # number of warmup steps for learning rate scheduler
-		weight_decay=0.01,               # strength of weight decay
-		logging_dir='./logs',            # directory for storing logs
+		weight_decay=config.trainer.weight_decay,               # strength of weight decay
+		logging_dir=config.trainer.logging_dir,            # directory for storing logs
 
-		evaluation_strategy="steps",
-		logging_steps=100,
-		eval_steps=100,
+		evaluation_strategy=config.trainer.evaluation_strategy,
+		logging_steps=config.trainer.logging_steps,
+		eval_steps=config.trainer.eval_steps,
 	)
 
 	print("#### Prepare trainer.")
 	trainer = Trainer(
 		model=model,
 		args=training_args,
-		train_dataset=train_ds,
-		eval_dataset=test_ds,
+		train_dataset=train_dl,
+		eval_dataset=test_dl,
 		# data_collator=data_collator,
 		# tokenizer=tokenizer,
 		# compute_metrics=compute_metrics,

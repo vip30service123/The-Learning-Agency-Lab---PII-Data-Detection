@@ -1,4 +1,4 @@
-accelerate
+accelerate=0.20.1
 dvc
 dvc_gdrive
 omegaconf

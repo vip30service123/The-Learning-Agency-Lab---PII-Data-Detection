@@ -22,6 +22,7 @@ def process(config):
     tokenizer = AutoTokenizer.from_pretrained(config.model.base_model_name_or_path)
 
     print("#### Start tokenizing.")
+    # Not every tokenizer has token_type_ids in output
     df['input_ids'], df['token_type_ids'], df['attention_mask'], df['offset_mapping'], df['token_labels'], df['token_maps'] = \
         zip(*df.apply(lambda x: list(tokenize(tokenizer, 
                                               {'tokens': x['tokens'], 
