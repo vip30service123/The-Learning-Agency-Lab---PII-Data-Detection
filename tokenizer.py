@@ -1,4 +1,4 @@
-from typing import Dict, Self
+from typing import Dict
 
 from transformers import AutoTokenizer
 
