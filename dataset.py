@@ -13,10 +13,10 @@ class DatasetForProcessedData(Dataset):
     def __getitem__(self, id: int):
         instance = self.ds.iloc[id]
         
-        input_ids = torch.Tensor(eval(instance['input_ids']))
-        token_type_ids = torch.Tensor(eval(instance['token_type_ids']))
-        attention_mask = torch.Tensor(eval(instance['attention_mask']))
-        token_labels = torch.Tensor(eval(instance['token_labels']))
+        input_ids = torch.Tensor(eval(instance['input_ids'])).type(torch.int64)
+        token_type_ids = torch.Tensor(eval(instance['token_type_ids'])).type(torch.int64)
+        attention_mask = torch.Tensor(eval(instance['attention_mask'])).type(torch.int64)
+        token_labels = torch.Tensor(eval(instance['token_labels'])).type(torch.int64)
 
         return {
             "input_ids": input_ids, 
