@@ -1,6 +1,7 @@
-accelerate=0.20.1
+accelerate==0.27.2
 dvc
 dvc_gdrive
+hydra-core
 omegaconf
 pandas
 python-dotenv

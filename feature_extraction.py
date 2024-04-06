@@ -3,9 +3,9 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from transformers import AutoTokenizer
 
-from const import label2id
-from tokenizer import tokenize
-from utils import load_json
+from src.const import label2id
+from src.tokenizer import tokenize
+from src.utils import load_json
 
 
 def process(config):
@@ -40,5 +40,5 @@ def process(config):
     print("#### Done processing.")
 
 if __name__=="__main__":
-    config = OmegaConf.load('config.yaml')
+    config = OmegaConf.load('params.yaml')
     process(config)

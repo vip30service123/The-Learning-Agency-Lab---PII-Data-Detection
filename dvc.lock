@@ -1,0 +1,76 @@
+schema: '2.0'
+stages:
+  prepare_data:
+    cmd: python data_processing.py
+    deps:
+    - path: data/train.json
+      hash: md5
+      md5: 8d0a32073dd7bc9d817a8ac1f6c20376
+      size: 109496478
+    - path: data_processing.py
+      hash: md5
+      md5: 1ece068cf736e8de44e3f6137113c80f
+      size: 1699
+    params:
+      params.yaml:
+        dataset:
+          data_path: ./data/train.json
+          processed_train_path: ./processed_data/processed_train.csv
+          processed_test_path: ./processed_data/processed_test.csv
+          train_percentage: 0.8
+          max_length: 1024
+          random_seed: 1234
+          bsz: 8
+          is_shuffle: true
+    outs:
+    - path: ./processed_data/processed_test.csv
+      hash: md5
+      md5: 50355995841bce97d323df2b287e82de
+      size: 84092887
+    - path: ./processed_data/processed_train.csv
+      hash: md5
+      md5: f777adcde1d27deb58933919b39eb81b
+      size: 333681692
+  feature_extraction:
+    cmd: python feature_extraction.py
+    deps:
+    - path: ./src/const.py
+      hash: md5
+      md5: f460ed11d3c7496b1042200a5b64f690
+      size: 316
+    - path: ./src/tokenizer.py
+      hash: md5
+      md5: 7905f8df05d5e6d3720c6c4a3f726ba4
+      size: 1124
+    - path: ./src/utils.py
+      hash: md5
+      md5: 49d6423f6f9c27ab483d740675f7d004
+      size: 566
+    - path: data/train.json
+      hash: md5
+      md5: 8d0a32073dd7bc9d817a8ac1f6c20376
+      size: 109496478
+    - path: feature_extraction.py
+      hash: md5
+      md5: 1ece068cf736e8de44e3f6137113c80f
+      size: 1699
+    params:
+      params.yaml:
+        dataset:
+          data_path: ./data/train.json
+          processed_train_path: ./processed_data/processed_train.csv
+          processed_test_path: ./processed_data/processed_test.csv
+          train_percentage: 0.8
+          max_length: 1024
+          random_seed: 1234
+          bsz: 8
+          is_shuffle: true
+    outs:
+    - path: ./processed_data/processed_test.csv
+      hash: md5
+      md5: 50355995841bce97d323df2b287e82de
+      size: 84092887
+    - path: ./processed_data/processed_train.csv
+      hash: md5
+      md5: f777adcde1d27deb58933919b39eb81b
+      size: 333681692

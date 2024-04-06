@@ -5,7 +5,7 @@ sys.path.append(f"{parent_directory}/The-Learning-Agency-Lab---PII-Data-Detectio
 
 
 import unittest
-from rule_base import *
+from src.rule_base import *
 
 
 class TestRuleBase(unittest.TestCase):

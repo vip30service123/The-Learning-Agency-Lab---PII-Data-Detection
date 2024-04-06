@@ -1,0 +1,29 @@
+stages:
+  feature_extraction:
+    cmd: python feature_extraction.py
+    deps: 
+      - feature_extraction.py
+      - data/train.json
+      - ./src/const.py
+      - ./src/tokenizer.py
+      - ./src/utils.py
+    params:
+      - dataset
+    outs:
+      - ./processed_data/processed_train.csv
+      - ./processed_data/processed_test.csv
+  train:
+    cmd: python train.py
+    deps:
+      - train.py
+      - ./src/dataset.py
+      - ./src/const.py
+      - ./processed_data/processed_train.csv
+      - ./processed_data/processed_test.csv
+    params:
+      - model
+      - trainer
+    outs:
+      - ./results
+
+    

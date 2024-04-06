@@ -2,8 +2,8 @@ from omegaconf import OmegaConf
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoModelForTokenClassification, Trainer, TrainingArguments
 
-from const import label2id, id2label 
-from dataset import DatasetForProcessedData
+from src.const import label2id, id2label 
+from src.dataset import DatasetForProcessedData
 
 
 def train(config):
@@ -39,8 +39,8 @@ def train(config):
 	trainer = Trainer(
 		model=model,
 		args=training_args,
-		train_dataset=train_dl,
-		eval_dataset=test_dl,
+		train_dataset=train_ds,
+		eval_dataset=test_ds,
 		# data_collator=data_collator,
 		# tokenizer=tokenizer,
 		# compute_metrics=compute_metrics,
@@ -50,5 +50,5 @@ def train(config):
 
 
 if __name__=="__main__":
-	config = OmegaConf.load('config.yaml')
+	config = OmegaConf.load('params.yaml')
 	train(config)
