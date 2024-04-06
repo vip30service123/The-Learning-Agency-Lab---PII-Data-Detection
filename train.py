@@ -7,6 +7,8 @@ from dataset import DatasetForProcessedData
 
 
 def train(config):
+	print("#### Prepare dataset.")
+
 	train_ds = DatasetForProcessedData(config.dataset.processed_train_path)
 	test_ds = DatasetForProcessedData(config.dataset.processed_test_path)
 
@@ -18,6 +20,7 @@ def train(config):
 															label2id=label2id,
 															finetuning_task="ner")
 	
+	print("#### Prepare config.")
 	training_args = TrainingArguments(
 		output_dir='./results',          # output directory
 		num_train_epochs=10,              # total number of training epochs
@@ -32,6 +35,7 @@ def train(config):
 		eval_steps=100,
 	)
 
+	print("#### Prepare trainer.")
 	trainer = Trainer(
 		model=model,
 		args=training_args,
@@ -41,6 +45,8 @@ def train(config):
 		# tokenizer=tokenizer,
 		# compute_metrics=compute_metrics,
 	)
+
+	trainer.train()
 
 
 if __name__=="__main__":
