@@ -2,6 +2,8 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
 
+from src.const import label2id, id2label
+
 
 class DatasetForProcessedData(Dataset):
     def __init__(self, df_path):
@@ -12,16 +14,29 @@ class DatasetForProcessedData(Dataset):
 
     def __getitem__(self, id: int):
         instance = self.ds.iloc[id]
-        
-        input_ids = torch.Tensor(eval(instance['input_ids'])).type(torch.int64)
-        token_type_ids = torch.Tensor(eval(instance['token_type_ids'])).type(torch.int64)
-        attention_mask = torch.Tensor(eval(instance['attention_mask'])).type(torch.int64)
-        token_labels = torch.Tensor(eval(instance['token_labels'])).type(torch.int64)
 
-        return {
-            "input_ids": input_ids, 
-            "token_type_ids": token_type_ids, 
-            "attention_mask": attention_mask, 
-            "labels": token_labels
-        }
+        out = {}
+        for col in self.ds.columns:
+            if col == "labels":
+                out['true_labels'] = eval(instance[col])
+            
+            elif col == 'token_labels':
+                out['labels'] = torch.Tensor(eval(instance[col])).type(torch.int64)
+
+            else:
+                try:
+                    out[col] = torch.Tensor(eval(instance[col])).type(torch.int64)
+                except:
+                    out[col] = instance[col]
+
+        return out
+
+
+
+        # return {
+        #     "input_ids": input_ids, 
+        #     "token_type_ids": token_type_ids, 
+        #     "attention_mask": attention_mask, 
+        #     "labels": token_labels
+        # }
 

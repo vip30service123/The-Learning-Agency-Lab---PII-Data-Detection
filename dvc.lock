@@ -40,8 +40,8 @@ stages:
       size: 316
     - path: ./src/tokenizer.py
       hash: md5
-      md5: 7905f8df05d5e6d3720c6c4a3f726ba4
-      size: 1124
+      md5: cb96e3fc490095d720f9bc79622cf7ec
+      size: 1160
     - path: ./src/utils.py
       hash: md5
       md5: 49d6423f6f9c27ab483d740675f7d004
@@ -74,3 +74,50 @@ stages:
       hash: md5
       md5: f777adcde1d27deb58933919b39eb81b
       size: 333681692
+  train:
+    cmd: python train.py
+    deps:
+    - path: ./processed_data/processed_test.csv
+      hash: md5
+      md5: 50355995841bce97d323df2b287e82de
+      size: 84092887
+    - path: ./processed_data/processed_train.csv
+      hash: md5
+      md5: f777adcde1d27deb58933919b39eb81b
+      size: 333681692
+    - path: ./src/const.py
+      hash: md5
+      md5: f460ed11d3c7496b1042200a5b64f690
+      size: 316
+    - path: ./src/dataset.py
+      hash: md5
+      md5: ee75972f0f888355fc09c0b0010f22bf
+      size: 1085
+    - path: ./src/metric.py
+      hash: md5
+      md5: fafb52bcb75ca43ba491b7ac6da5eb62
+      size: 958
+    - path: train.py
+      hash: md5
+      md5: 2ddcd1108c01ca00ff5927f1c916604e
+      size: 2092
+    params:
+      params.yaml:
+        model:
+          base_model_name_or_path: microsoft/deberta-v3-base
+        trainer:
+          output_dir: ./results
+          num_train_epochs: 3
+          per_device_train_batch_size: 8
+          per_device_eval_batch_size: 8
+          weight_decay: 0.01
+          logging_dir: ./logs
+          evaluation_strategy: steps
+          logging_steps: 1
+          eval_steps: 1
+    outs:
+    - path: ./results
+      hash: md5
+      md5: d751713988987e9331980363e24189ce.dir
+      size: 0
+      nfiles: 0

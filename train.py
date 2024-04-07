@@ -1,10 +1,11 @@
+import evaluate
 from omegaconf import OmegaConf
 from torch.utils.data import Dataset, DataLoader
-from transformers import AutoModelForTokenClassification, Trainer, TrainingArguments
+from transformers import AutoModelForTokenClassification, IntervalStrategy, Trainer, TrainingArguments
 
 from src.const import label2id, id2label 
 from src.dataset import DatasetForProcessedData
-
+from src.metric import MetricForPII
 
 def train(config):
 	print("#### Prepare dataset.")
@@ -12,14 +13,13 @@ def train(config):
 	train_ds = DatasetForProcessedData(config.dataset.processed_train_path)
 	test_ds = DatasetForProcessedData(config.dataset.processed_test_path)
 
-	train_dl = DataLoader(train_ds, batch_size=config.dataset.bsz, shuffle=config.dataset.is_shuffle)
-	test_dl = DataLoader(test_ds, batch_size=config.dataset.bsz, shuffle=config.dataset.is_shuffle)
-
 	model = AutoModelForTokenClassification.from_pretrained(config.model.base_model_name_or_path,
 															id2label=id2label,
 															label2id=label2id,
 															finetuning_task="ner")
-	
+
+	metric = evaluate.load("seqeval")
+
 	print("#### Prepare config.")
 	training_args = TrainingArguments(
 		output_dir=config.trainer.output_dir,          # output directory
@@ -33,6 +33,7 @@ def train(config):
 		evaluation_strategy=config.trainer.evaluation_strategy,
 		logging_steps=config.trainer.logging_steps,
 		eval_steps=config.trainer.eval_steps,
+  		# evaluation_strategy = IntervalStrategy.STEPS
 	)
 
 	print("#### Prepare trainer.")
@@ -43,8 +44,12 @@ def train(config):
 		eval_dataset=test_ds,
 		# data_collator=data_collator,
 		# tokenizer=tokenizer,
-		# compute_metrics=compute_metrics,
+		compute_metrics=MetricForPII(metric)
 	)
+
+	for batch in trainer.get_eval_dataloader(test_ds):
+		print(batch.keys())
+		break
 
 	trainer.train()
 

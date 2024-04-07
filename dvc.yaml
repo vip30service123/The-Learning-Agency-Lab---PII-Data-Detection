@@ -18,6 +18,7 @@ stages:
       - train.py
       - ./src/dataset.py
       - ./src/const.py
+      - ./src/metric.py
       - ./processed_data/processed_train.csv
       - ./processed_data/processed_test.csv
     params:
