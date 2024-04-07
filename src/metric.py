@@ -11,8 +11,12 @@
 
 from typing import Dict, List
 
-from src.const import all_labels
+import numpy as np
+import torch
+
+from src.const import *
 from src.rule_base import *
+from src.utils import tokenized_labels_to_token_labels
 
 
 def recall(tp: int, fn: int) -> float:
@@ -89,28 +93,117 @@ def flatten(matrix: List[List]) -> List:
 
 
 class MetricForPII:
-    def __init__(self, threshold: float, strategy: str = "micro"):
-        # self.metric = metric
+    def __init__(self, eval_ds, threshold: float, strategy: str = "micro"):
+        self.eval_ds = eval_ds
         self.threshold = threshold
         self.strategy = strategy
 
     def __call__(self, p):
+        # predictions, labels = p
+        # predictions = predictions.argmax(axis=2)
+
+        # true_predictions = [
+        #     [all_labels[p] for (p, l) in zip(prediction, label) if l != 0 and p != 0]
+        #     for prediction, label in zip(predictions, labels)
+        # ]
+        # true_predictions = flatten(true_predictions)
+
+        # true_labels = [
+        #     [all_labels[l] for (p, l) in zip(prediction, label) if l != 0 and p != 0]
+        #     for prediction, label in zip(predictions, labels)
+        # ]
+        # true_labels = flatten(true_labels)
+
+        # return f1_score(true_labels, true_predictions, 5, self.strategy)
+
         predictions, labels = p
-        predictions = predictions.argmax(axis=2)
 
-        true_predictions = [
-            [all_labels[p] for (p, l) in zip(prediction, label) if l != 0 and p != 0]
-            for prediction, label in zip(predictions, labels)
-        ]
-        true_predictions = flatten(true_predictions)
+        pred = predictions.argmax(-1)
 
-        true_labels = [
-            [all_labels[l] for (p, l) in zip(prediction, label) if l != 0 and p != 0]
-            for prediction, label in zip(predictions, labels)
-        ]
-        true_labels = flatten(true_labels)
+        predictions_O = predictions[:, :, 0]
 
-        return f1_score(true_labels, true_predictions, 5, self.strategy)
+        prediction_without_O = predictions.copy()
+        prediction_without_O[:, :, 0] = 0
+        prediction_without_O = prediction_without_O.argmax(-1)
 
+        # final_prediction = torch.where(predictions_O < self.threshold, prediction_without_O, pred).tolist()
+        final_prediction = np.where(predictions_O < self.threshold, prediction_without_O, pred)
+
+        # o_index = label2id["O"]
+        # preds = predictions.argmax(-1)
+        # preds_without_o = predictions.copy()
+        # preds_without_o[:,:,o_index] = 0
+        # preds_without_o = preds_without_o.argmax(-1)
+        # o_preds = predictions[:,:,o_index]
+        # preds_final = np.where(o_preds < self.threshold, preds_without_o , preds)
+
+
+        all_pred_labels = []
+        all_true_labels = []
+
+        # for pred, true_labels, offset_mapping, tokens, trailing_whitespace, token_maps in zip(final_prediction, 
+        #                                                                           self.eval_ds['true_labels'], 
+        #                                                                           self.eval_ds['offset_mapping'], 
+        #                                                                           self.eval_ds['tokens'], 
+        #                                                                           self.eval_ds['trailing_whitespace'],
+        #                                                                           self.eval_ds['token_maps']):
+
+        for pred, instance in zip(final_prediction, self.eval_ds):
+            true_labels, offset_mapping, tokens, trailing_whitespace, token_maps = (instance['true_labels'], 
+                                                                                    instance['offset_mapping'], 
+                                                                                    instance['tokens'], 
+                                                                                    instance['trailing_whitespace'],
+                                                                                    instance['token_maps'])
+
+            
+            # from tokenized predicted labels to predicted labels
+            token_pred = tokenized_labels_to_token_labels(pred, offset_mapping, token_maps)
+
+            # from id to label
+            token_pred = [id2label[i] for i in token_pred]
+
+            # remove email, phone, url and id labels since I update it with rule base functions
+            for id in range(len(token_pred)):
+                if token_pred in rule_base_labels:
+                    token_pred[id] = "O"
+
+            # change labels using rule base functions
+            email_ids = find_email_ids(tokens)
+            phone_ids = find_phone_number_ids(tokens, trailing_whitespace)
+            url_ids = find_urls_ids(tokens)
+            id_ids = find_id_ids(tokens)
+
+            for id in email_ids:
+                if id < len(token_pred):
+                    token_pred[id] = "B-EMAIL"
+            
+            for id in phone_ids:
+                if id < len(token_pred):
+                    token_pred[id] = "B-PHONE_NUM'"
+
+            for id in url_ids:
+                if id < len(token_pred):
+                    token_pred[id] = "B-URL_PERSONAL"
+
+            for id in id_ids:
+                if id < len(token_pred):
+                    token_pred[id] = "B-ID_NUM"
+
+            # modify pred len or true len so that they are equaled
+            min_len = min(len(token_pred), len(true_labels))
+
+            all_pred_labels.append(token_pred[:min_len])
+            all_true_labels.append(true_labels[:min_len])
+        
+        # flatten then because my f1_score function need that
+        all_pred_labels = flatten(all_pred_labels)
+        all_true_labels = flatten(all_true_labels)
+
+        return f1_score(
+            all_true_labels,
+            all_pred_labels,
+            5,
+            "micro"
+        )
 
 

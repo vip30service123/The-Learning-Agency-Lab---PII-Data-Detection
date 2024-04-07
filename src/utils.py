@@ -9,8 +9,8 @@ def load_json(data_path: str) -> Dict:
 
 
 def tokenized_labels_to_token_labels(
-		offset_mapping: List[Tuple[int]], 
 		tokenized_labels: List[int], 
+		offset_mapping: List[Tuple[int]], 
 		token_maps: List[int]
 	) -> List[int]:
 

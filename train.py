@@ -44,12 +44,8 @@ def train(config):
 		eval_dataset=test_ds,
 		# data_collator=data_collator,
 		# tokenizer=tokenizer,
-		compute_metrics=MetricForPII(0.9, "micro")
+		compute_metrics=MetricForPII(test_ds, 0.9, "micro")
 	)
-
-	for batch in trainer.get_eval_dataloader(test_ds):
-		print(batch.keys())
-		break
 
 	trainer.train()
 

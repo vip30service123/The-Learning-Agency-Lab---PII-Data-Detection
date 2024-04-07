@@ -39,7 +39,6 @@ def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int, label2id
 
 	return {
 		**tokenized_text,
-		# 'labels': instance['labels'],
 		'token_labels': token_labels,
 		'token_maps': token_maps		
 	}
