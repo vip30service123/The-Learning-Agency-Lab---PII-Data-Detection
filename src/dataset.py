@@ -7,7 +7,7 @@ from src.const import label2id, id2label
 
 class DatasetForProcessedData(Dataset):
     def __init__(self, df_path):
-        self.ds = pd.read_csv(df_path)
+        self.ds = pd.read_csv(df_path).iloc[:5]
         
     def __len__(self):
         return self.ds.shape[0]
