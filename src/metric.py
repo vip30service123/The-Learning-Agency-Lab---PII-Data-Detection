@@ -40,6 +40,9 @@ def f1_score(true_labels: List[str], pred_labels: List[str], beta: int = 5, stra
         if label != "0" and label[2:] not in all_labels: # ignore label "O" and only remove prefix from label for simplicity
             all_labels.append(label)
 
+    # Accuracy
+    acc = sum([1 for i, j in zip(true_labels, pred_labels) if i == j]) / len(true_labels)
+
     tp_fp_fn = []
     for label in all_labels:
         tp = sum([int(i == j and i == label) for i, j in zip(true_labels, pred_labels)])
@@ -84,7 +87,8 @@ def f1_score(true_labels: List[str], pred_labels: List[str], beta: int = 5, stra
     return {
         "recall": rec,
         "precision": pre,
-        "f1": f1
+        "f1": f1,
+        "accuracy": acc
     }       
 
 
