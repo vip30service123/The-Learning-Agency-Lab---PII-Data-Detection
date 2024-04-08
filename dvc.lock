@@ -44,16 +44,16 @@ stages:
       size: 1126
     - path: ./src/utils.py
       hash: md5
-      md5: cb7a7d7e2f894b6cb54357356bb33e78
-      size: 566
+      md5: dfc2358ecd0e316fa977e5285471d39e
+      size: 2917
     - path: data/train.json
       hash: md5
       md5: 8d0a32073dd7bc9d817a8ac1f6c20376
       size: 109496478
     - path: feature_extraction.py
       hash: md5
-      md5: 1ece068cf736e8de44e3f6137113c80f
-      size: 1699
+      md5: 01d09dae953999b6ca8a075079b90352
+      size: 1865
     params:
       params.yaml:
         dataset:
@@ -65,15 +65,16 @@ stages:
           random_seed: 1234
           bsz: 8
           is_shuffle: true
+          down_sample_percentage: 0.3
     outs:
     - path: ./processed_data/processed_test.csv
       hash: md5
-      md5: 50355995841bce97d323df2b287e82de
-      size: 84092887
+      md5: f172e0463657d417a301f611e7db5b41
+      size: 37327409
     - path: ./processed_data/processed_train.csv
       hash: md5
-      md5: f777adcde1d27deb58933919b39eb81b
-      size: 333681692
+      md5: dd78d89723ef7173f4409f9c30590879
+      size: 149551240
   train:
     cmd: python train.py
     deps:
@@ -95,12 +96,12 @@ stages:
       size: 1085
     - path: ./src/metric.py
       hash: md5
-      md5: d68979800b72d575fbc6f506489f7530
-      size: 7797
+      md5: 255c50b1fe22876c12d600567fb81999
+      size: 6256
     - path: train.py
       hash: md5
-      md5: 729cc5cb9fcd1d0edb1761c9a0587502
-      size: 2026
+      md5: 656f5282a8890b006fd1286b1db74066
+      size: 1990
     params:
       params.yaml:
         model:

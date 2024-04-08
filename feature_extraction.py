@@ -5,12 +5,15 @@ from transformers import AutoTokenizer
 
 from src.const import label2id
 from src.tokenizer import tokenize
-from src.utils import load_json
+from src.utils import load_json, down_sample_non_labeled_data
 
 
 def process(config):
     print("#### Start processing.")
     data = load_json(config.dataset.data_path)
+
+    if config.dataset.down_sample_percentage:
+        data = down_sample_non_labeled_data(data, config.dataset.down_sample_percentage)
 
     data_dict = {k: [] for k in data[0].keys()}
     for instance in data:

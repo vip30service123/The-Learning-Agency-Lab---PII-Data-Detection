@@ -18,8 +18,6 @@ def train(config):
 															label2id=label2id,
 															finetuning_task="ner")
 
-	# metric = evaluate.load("seqeval")
-
 	print("#### Prepare config.")
 	training_args = TrainingArguments(
 		output_dir=config.trainer.output_dir,          # output directory
@@ -44,7 +42,7 @@ def train(config):
 		eval_dataset=test_ds,
 		# data_collator=data_collator,
 		# tokenizer=tokenizer,
-		compute_metrics=MetricForPII(test_ds, 0.9, "micro")
+		compute_metrics=MetricForPII(test_ds, 0.987, "micro")
 	)
 
 	trainer.train()
