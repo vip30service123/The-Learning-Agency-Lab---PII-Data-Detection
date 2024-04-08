@@ -47,6 +47,8 @@ def train(config):
 
 	trainer.train()
 
+	if config.model.save_model_path:
+		model.save_pretrained(config.model.save_model_path)
 
 if __name__=="__main__":
 	config = OmegaConf.load('params.yaml')

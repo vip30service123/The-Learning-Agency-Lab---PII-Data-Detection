@@ -1,6 +1,7 @@
 data
 processed_data
 __pycache__
+model
 temp.py
 temp1.py
 temp.ipynb

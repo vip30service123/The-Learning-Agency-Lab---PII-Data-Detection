@@ -40,7 +40,6 @@ def down_sample_non_labeled_data(data: List[Dict], sample_percentage: float = 0.
 	return non_label_data + label_data
 
 
-
 def logits_to_pred_tokenized_tokens(predictions: np.array, threshold: float) -> List[int]:
 	id_label_O = label2id["O"]
 

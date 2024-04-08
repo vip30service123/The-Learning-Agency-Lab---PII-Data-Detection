@@ -10,6 +10,7 @@ dataset:
   down_sample_percentage: 0.3
 model:
   base_model_name_or_path: "microsoft/deberta-v3-base"
+  save_model_path: "./model"
 trainer:
   output_dir: "./results"
   num_train_epochs: 3
@@ -20,3 +21,4 @@ trainer:
   evaluation_strategy: 'steps'
   logging_steps: 100
   eval_steps: 100
+  
