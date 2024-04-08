@@ -14,7 +14,7 @@ def load_json(data_path: str) -> Dict:
 	return data	
 
 
-def down_sample_non_labeled_data(data: List[Dict], sample_percentage: float = 0.5, is_equaled: bool = False) -> List[Dict]:
+def down_sample_non_labeled_data(data: List[Dict], sample_percentage: float = 0.0, is_equaled: bool = False) -> List[Dict]:
 	if sample_percentage and is_equaled:
 		raise Exception("Only set either sample_percentage or is_equaled, not both.")
 

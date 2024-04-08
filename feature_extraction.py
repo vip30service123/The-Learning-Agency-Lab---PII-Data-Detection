@@ -1,3 +1,5 @@
+import os
+
 from omegaconf import OmegaConf
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -10,10 +12,14 @@ from src.utils import load_json, down_sample_non_labeled_data
 
 def process(config):
     print("#### Start processing.")
+
     data = load_json(config.dataset.data_path)
 
+    # imbalance data is always bad
     if config.dataset.down_sample_percentage:
         data = down_sample_non_labeled_data(data, config.dataset.down_sample_percentage)
+    else:
+        data = down_sample_non_labeled_data(data, is_equaled=True)
 
     data_dict = {k: [] for k in data[0].keys()}
     for instance in data:
