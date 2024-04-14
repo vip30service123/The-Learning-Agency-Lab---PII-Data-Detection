@@ -64,8 +64,8 @@ def f1_score(true_labels: List[str], pred_labels: List[str], beta: int = 5, stra
             f1 = 0
     
     if strategy == "macro":
-        pre = sum([precision(i[0], i[1]) for i in tp_fp_fn])
-        rec = sum([recall(i[0], i[2]) for i in tp_fp_fn])
+        pre = sum([precision(i[0], i[1]) for i in tp_fp_fn]) / len(all_labels)
+        rec = sum([recall(i[0], i[2]) for i in tp_fp_fn]) / len(all_labels)
 
         try:
             f1 = (1 + beta ** 2) * rec * pre / (beta ** 2 * pre + rec)
