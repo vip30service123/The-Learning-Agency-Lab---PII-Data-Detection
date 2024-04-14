@@ -11,7 +11,7 @@ def tokenize(tokenizer: AutoTokenizer, instance: Dict, max_length: int, label2id
 		raise Exception("tokens is missing.")	
 
 	if "labels" not in instance:
-		raise Exception("lebels is missing.")
+		raise Exception("labels is missing.")
 
 	text = []
 	token_maps = []

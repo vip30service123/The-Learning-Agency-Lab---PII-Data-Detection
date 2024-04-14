@@ -12,7 +12,6 @@
 from typing import Dict, List
 
 import numpy as np
-import torch
 
 from src.const import *
 from src.rule_base import *
@@ -37,7 +36,7 @@ def f1_score(true_labels: List[str], pred_labels: List[str], beta: int = 5, stra
     
     all_labels = []
     for label in list(set(pred_labels + true_labels)):
-        if label != "0" and label[2:] not in all_labels: # ignore label "O" and only remove prefix from label for simplicity
+        if label != "O" and label[2:] not in all_labels: # ignore label "O" and only remove prefix from label for simplicity
             all_labels.append(label)
 
     # Accuracy
